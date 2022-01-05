@@ -37,6 +37,16 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'flash' => [
+                'success' => $request->session()->get('success'),
+                'updated' => $request->session()->get('updated'),
+                'deleted' => $request->session()->get('deleted'),
+                'orders' => $request->session()->get('orders'),
+                'approved' => $request->session()->get('approved'),
+                'cancel' => $request->session()->get('cancel'),
+                'ready' => $request->session()->get('ready'),
+                'served' => $request->session()->get('served')
+            ]
         ]);
     }
 }

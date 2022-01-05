@@ -1,22 +1,29 @@
 <template>
     <div>
         <div class="min-h-screen bg-gray-100">
-            <nav class="bg-white border-b border-gray-100">
+            <nav class="bg-neutral-700 border-b border-gray-100">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
-                            <div class="shrink-0 flex items-center">
+                            <div class="shrink-0 flex items-center sm:mr-9">
                                 <Link :href="route('dashboard')">
-                                    <BreezeApplicationLogo class="block h-9 w-auto" />
+                                    <img src="https://svgsilh.com/svg/2400338.svg" alt="" class="bg-white rounded-full block h-9 w-auto" />
                                 </Link>
+                                <div class="text-xl text-white ml-2">
+                                    Kitchen<sub class="text-xs">Panel</sub>
+                                </div>
                             </div>
-
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <div class="hidden space-x-10 sm:-my-px sm:mr-5 sm:flex">
                                 <BreezeNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                    Dishes
+                                </BreezeNavLink>
+                            </div>
+                            <div class="hidden space-x-10 sm:-my-px sm:mr-5 sm:flex">
+                                <BreezeNavLink :href="route('dashboard.order')" :active="route().current('dashboard.order')">
+                                    Orders
                                 </BreezeNavLink>
                             </div>
                         </div>
@@ -38,6 +45,9 @@
                                     </template>
 
                                     <template #content>
+                                        <BreezeDropdownLink :href="route('order.form')" as="button">
+                                            Waiter
+                                        </BreezeDropdownLink>
                                         <BreezeDropdownLink :href="route('logout')" method="post" as="button">
                                             Log Out
                                         </BreezeDropdownLink>
@@ -62,20 +72,32 @@
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
                         <BreezeResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
+                            Dishes
+                        </BreezeResponsiveNavLink>
+                    </div>
+                    <div class="pt-2 pb-3 space-y-1">
+                        <BreezeResponsiveNavLink :href="route('dashboard.order')" :active="route().current('dashboard.order')">
+                            Orders
                         </BreezeResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->
                     <div class="pt-4 pb-1 border-t border-gray-200">
                         <div class="px-4">
-                            <div class="font-medium text-base text-gray-800">{{ $page.props.auth.user.name }}</div>
-                            <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>
+                            <div class="font-medium text-base text-white">{{ $page.props.auth.user.name }}</div>
+                            <div class="font-medium text-sm text-violet-500">{{ $page.props.auth.user.email }}</div>
                         </div>
 
                         <div class="mt-3 space-y-1">
+                            <BreezeDropdownLink :href="route('order.form')" as="button">
+                                <span class="py-2 px-5 text-base bg-white hover:bg-gray-500 rounded-lg">
+                                    Waiter
+                                </span>
+                            </BreezeDropdownLink>
                             <BreezeResponsiveNavLink :href="route('logout')" method="post" as="button">
-                                Log Out
+                                <span class="py-2 px-4 bg-rose-500 hover:bg-rose-600 rounded-lg">
+                                    Log Out
+                                </span>
                             </BreezeResponsiveNavLink>
                         </div>
                     </div>
@@ -98,7 +120,6 @@
 </template>
 
 <script>
-import BreezeApplicationLogo from '@/Components/ApplicationLogo.vue'
 import BreezeDropdown from '@/Components/Dropdown.vue'
 import BreezeDropdownLink from '@/Components/DropdownLink.vue'
 import BreezeNavLink from '@/Components/NavLink.vue'
@@ -107,7 +128,6 @@ import { Link } from '@inertiajs/inertia-vue3';
 
 export default {
     components: {
-        BreezeApplicationLogo,
         BreezeDropdown,
         BreezeDropdownLink,
         BreezeNavLink,

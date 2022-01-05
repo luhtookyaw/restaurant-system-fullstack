@@ -1,8 +1,10 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\KitchenController;
+use App\Http\Controllers\OrdersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,17 +17,22 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::get('/', [OrdersController::class, 'index'])->name('order.form');
+Route::post('/order_submit', [OrdersController::class, 'submit'])->name('order.submit');
+Route::get('/order_serve/{order}', [OrdersController::class, 'serve'])->name('order.serve');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [KitchenController::class, 'index'])->name('dashboard');
+Route::post('/dashboard', [KitchenController::class, 'store'])->name('dashboard.store');
+Route::get('/dashboard/{dish}/edit', [KitchenController::class, 'edit'])->name('dashboard.edit');
+Route::post('/dashboard/{dish}', [KitchenController::class, 'update'])->name('dashboard.update');
+Route::delete('/dashboard/{dish}', [KitchenController::class, 'destroy'])->name('dashboard.delete');
+
+
 
 require __DIR__.'/auth.php';
+
+Route::get('/dashboard/orders', [KitchenController::class, 'order'])->name('dashboard.order');
+Route::get('/dashboard/orders/{order}/approve', [KitchenController::class, 'approve'])->name('dashboard.order.approve');
+Route::get('/dashboard/orders/{order}/cancel', [KitchenController::class, 'cancel'])->name('dashboard.order.cancel');
+Route::get('/dashboard/orders/{order}/ready', [KitchenController::class, 'ready'])->name('dashboard.order.ready');
+

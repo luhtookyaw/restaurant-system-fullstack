@@ -1,27 +1,45 @@
 <template>
     <Head title="Register" />
 
-    <BreezeValidationErrors class="mb-4" />
-
     <form @submit.prevent="submit">
         <div>
             <BreezeLabel for="name" value="Name" />
-            <BreezeInput id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autofocus autocomplete="name" />
+            <BreezeInput 
+                id="name" type="text" 
+                class="mt-1 block w-full" :class="errors.email && 'border-red-400'"
+                v-model="form.name" autofocus autocomplete="name" 
+            />
+            <div v-if="errors.name" class="text-red-700 text-sm">*{{ errors.name }}</div>
         </div>
 
         <div class="mt-4">
             <BreezeLabel for="email" value="Email" />
-            <BreezeInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autocomplete="username" />
+            <BreezeInput 
+                id="email" type="email" 
+                class="mt-1 block w-full" :class="errors.email && 'border-red-400'"
+                v-model="form.email" autocomplete="username" 
+            />
+            <div v-if="errors.email" class="text-red-700 text-sm">*{{ errors.email }}</div>
         </div>
 
         <div class="mt-4">
             <BreezeLabel for="password" value="Password" />
-            <BreezeInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="new-password" />
+            <BreezeInput 
+                id="password" type="password" 
+                class="mt-1 block w-full" :class="errors.password && 'border-red-400'"
+                v-model="form.password" autocomplete="new-password" 
+            />
+            <div v-if="errors.password" class="text-red-700 text-sm">*{{ errors.password }}</div>
         </div>
 
         <div class="mt-4">
             <BreezeLabel for="password_confirmation" value="Confirm Password" />
-            <BreezeInput id="password_confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" required autocomplete="new-password" />
+            <BreezeInput
+                id="password_confirmation" type="password" 
+                class="mt-1 block w-full" :class="errors.password && 'border-red-400'"
+                v-model="form.password_confirmation" autocomplete="new-password" 
+            />
+            <div v-if="errors.password" class="text-red-700 text-sm">*{{ errors.password }}</div>
         </div>
 
         <div class="flex items-center justify-end mt-4">
@@ -46,6 +64,9 @@ import { Head, Link } from '@inertiajs/inertia-vue3';
 
 export default {
     layout: BreezeGuestLayout,
+    props: {
+        errors: Object,
+    },
 
     components: {
         BreezeButton,
